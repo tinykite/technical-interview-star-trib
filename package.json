@@ -1,0 +1,17 @@
+{
+  "name": "technical-interview-repo",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev": "concurrently \"yarn dev:web\" \"yarn dev:api\"",
+    "dev:web": "yarn workspace web dev",
+    "dev:api": "yarn workspace api start:dev",
+    "build": "yarn workspaces run build",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test",
+    "test:web": "yarn workspace web test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}
