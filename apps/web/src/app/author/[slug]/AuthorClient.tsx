@@ -1,5 +1,7 @@
 "use client";
 
+import FavoriteToggle from "@/northern-star/FavoriteToggle/FavoriteToggle";
+
 export interface Author {
   name: string;
   slug: string;
@@ -25,10 +27,15 @@ export default function AuthorClient({ author }: AuthorClientProps) {
                 )}
 
                 {/* Name + Bio stacked vertically */}
-                <div>
-                    <h1 className="text-4xl font-bold text-primary-emerald-green mb-2">
+                <div className="mb-2">
+                    <div className="flex space-x-1 items-center">
+                     <FavoriteToggle id={author.name} />
+                    <h1 className="text-4xl font-bold text-primary-emerald-green">
                         {author.name}
                     </h1>
+
+                    </div>
+              
                     <article className="prose prose-green">
                         <p>{author.bio}</p>
                     </article>
