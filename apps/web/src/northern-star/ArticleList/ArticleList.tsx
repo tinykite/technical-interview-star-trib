@@ -2,6 +2,7 @@
 
 import ArticlePreview from "../ArticlePreview/ArticlePreview";
 import type { Article } from "../ArticlePreview/ArticlePreview";
+import { useFavorites } from "@/contexts/FavoritesContext";
 
 type ArticleListProps = {
   articles: Article[];
@@ -9,10 +10,24 @@ type ArticleListProps = {
   noArticlesMessage?: string;
 };
 
-function sortArticlesByImage(articlesList: Article[]) {
-  const withImages = articlesList.filter((a) => a.image);
-  const withoutImages = articlesList.filter((a) => !a.image);
-  return [...withImages, ...withoutImages];
+type sortArticlesProps = {
+  articles: Article[];
+  favorites: string[]
+}
+
+function sortArticles({articles, favorites}: sortArticlesProps) {
+  const favoriteSet = new Set(favorites);
+  
+  const getPriority = (article: Article) => {
+    let priority = 0;
+    
+    if (favoriteSet.has(article.author)) priority += 10;
+    if (article.image) priority += 1;
+    
+    return priority;
+  };
+  
+  return articles.sort((a, b) => getPriority(b) - getPriority(a));
 }
 
 export default function ArticleList({
@@ -20,7 +35,8 @@ export default function ArticleList({
   title,
   noArticlesMessage = "No articles found.",
 }: ArticleListProps) {
-  const sortedArticles = sortArticlesByImage(articles);
+  const { favorites } = useFavorites()
+  const sortedArticles = sortArticles({articles, favorites});
 
   return (
     <section className="mb-12">
