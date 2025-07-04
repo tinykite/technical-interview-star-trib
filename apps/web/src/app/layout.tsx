@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FavoritesProvider } from '../contexts/FavoritesContext'
 import NavBar from "../northern-star/NavBar/NavBar"
 import "./globals.css";
 
@@ -20,8 +21,10 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
+        <FavoritesProvider>
         <NavBar />
         {children}
+        </FavoritesProvider>
       </body>
     </html>
   );
